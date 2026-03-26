@@ -41,7 +41,9 @@
 
 ## 🏗️ KIẾN TRÚC HỆ THỐNG (SYSTEM ARCHITECTURE)
 
+
 ### 🔄 E2E Autonomous Loop Closure (Chu trình Hoạt động)
+
 ```mermaid
 graph TD
     A[User Request / Error Detection] --> B[Master Router: Logic & Tier Analysis]
@@ -58,30 +60,32 @@ graph TD
     J --> K[Task Completed]
 ```
 
+
 ### 🌐 Hive-Mind Synchronization Architecture
+
 ```mermaid
 graph LR
-    subgraph "Local Environment (Private)"
+    subgraph LE["Local Environment (Private)"]
         Cursor[.cursorrules]
         Claude[CLAUDE.md]
         Roo[ROO.md]
     end
 
-    subgraph "Orchestration Layer"
+    subgraph OL["Orchestration Layer"]
         MASTER_ROUTER[MASTER_ROUTER.md]
         CORE_RULES[Antigravity_CORE_RULES.md]
         GEMINI[GEMINI.md]
     end
 
-    subgraph "Global Repository (Public)"
-        Global Repository[ngTwg/Branding-Focused-Skills]
+    subgraph GR["Global Repository (Public)"]
+        GlobalRepo["ngTwg/Branding-Focused-Skills"]
     end
 
-    Local -->|Injects Awareness| MASTER_ROUTER
+    LE -->|Injects Awareness| MASTER_ROUTER
     MASTER_ROUTER -->|Syncs Rules| CORE_RULES
     CORE_RULES -->|Propagates| GEMINI
-    CORE_RULES -->|Triggers| Global Repository
-    Global Repository -->|Mirroring & PII Scrubbing| Global Repository
+    CORE_RULES -->|Triggers| GlobalRepo
+    GlobalRepo -->|Mirroring & PII Scrubbing| GlobalRepo
 ```
 
 ### 📦 Project Structure
