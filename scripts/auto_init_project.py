@@ -39,7 +39,12 @@ STATUS = {
 }
 
 def init_project(target_dir_path: Path):
-    print(f"{STATUS['init']} Initializing Antigravity Rules and Workspace at: {target_dir_path.resolve()}")
+    target_dir_path = target_dir_path.resolve()
+    project_name = target_dir_path.name
+    import datetime
+    current_date = datetime.date.today().strftime("%Y-%m-%d")
+
+    print(f"{STATUS['init']} Initializing Antigravity Rules and Workspace at: {target_dir_path}")
     
     # 1. Copy essential folders
     folders_to_copy = ["rules", "workflows", "memory"]
@@ -60,19 +65,18 @@ def init_project(target_dir_path: Path):
 
     # 1.5 Auto-copy memory and workflow .md files into rules
     rules_dest = target_dir_path / ".agents" / "rules"
-    if rules_dest.exists():
-        for folder in ["memory", "workflows"]:
-            src_folder = target_dir_path / ".agents" / folder
-            if src_folder.exists():
-                for md_file in src_folder.glob("*.md"):
-                    dest_file = rules_dest / md_file.name
-                    if not dest_file.exists():
-                        shutil.copy2(md_file, dest_file)
-                        print(f"{STATUS['copy']} Copied {folder}/{md_file.name} to rules/")
-                    else:
-                        print(f"{STATUS['info']} File {md_file.name} already in rules/")
+    rules_dest.mkdir(parents=True, exist_ok=True)
+    
+    for folder in ["memory", "workflows", "rules"]:
+        src_folder = target_dir_path / ".agents" / folder
+        if src_folder.exists() and src_folder != rules_dest:
+            for md_file in src_folder.glob("*.md"):
+                dest_file = rules_dest / md_file.name
+                if not dest_file.exists():
+                    shutil.copy2(md_file, dest_file)
+                    print(f"{STATUS['copy']} Copied {folder}/{md_file.name} to rules/")
 
-    # 2. Copy core markdown files to .agents directory
+    # 2. Copy and Customize core markdown files to .agents directory
     files_to_copy = [
         "GEMINI.md", 
         "PROJECT_MAP_TEMPLATE.md", 
@@ -94,13 +98,40 @@ def init_project(target_dir_path: Path):
             continue
             
         if not dest.exists():
+            # Copy template
             shutil.copy2(src, dest)
             print(f"{STATUS['create']} Created: {dest}")
+            
+            # Perform dynamic customization on the new file
+            try:
+                with open(dest, "r", encoding="utf-8") as f:
+                    content = f.read()
+                
+                # Replace dynamic parameters
+                customized = (content
+                    .replace("c:/Users/lengo/.gemini", str(target_dir_path.as_posix()))
+                    .replace("c:\\Users\\lengo\\.gemini", str(target_dir_path))
+                    .replace("2026-06-16", current_date)
+                    .replace("Antigravity AI Skills", f"{project_name} AI Rules Workspace")
+                )
+                
+                with open(dest, "w", encoding="utf-8") as f:
+                    f.write(customized)
+                print(f"{STATUS['ok']} Customized {dest.name} for project '{project_name}'")
+            except Exception as e:
+                print(f"{STATUS['error']} Customizing {dest.name} failed: {e}")
         else:
             print(f"{STATUS['info']} File already exists: {dest}")
 
-    # 3. Create IDE integration files (.cursorrules, .clinerules, etc.)
-    gemini_md_src = GLOBAL_GEMINI_DIR / "GEMINI.md"
+    # Copy customized core files directly to rules/
+    for file_name in ["GEMINI.md", "INVARIANTS.md", "KNOWN_FAILURES.md", "PROJECT_MAP.md"]:
+        agent_file = target_dir_path / ".agents" / file_name
+        if agent_file.exists():
+            shutil.copy2(agent_file, rules_dest / file_name)
+            print(f"{STATUS['copy']} Synced {file_name} directly into rules/")
+
+    # 3. Create IDE integration files (.cursorrules, .clinerules, etc.) using customized rules/GEMINI.md
+    gemini_md_src = rules_dest / "GEMINI.md"
     if gemini_md_src.exists():
         ide_rules_files = [".cursorrules", ".clinerules", ".windsurfrules"]
         for rules_file in ide_rules_files:
