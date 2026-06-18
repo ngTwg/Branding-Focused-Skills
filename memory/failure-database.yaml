@@ -1,0 +1,18 @@
+# Failure Memory & Anti-Pattern Database
+# Where technical "scars" are stored. Learning from failure is always more effective than from success.
+
+failures:
+  - id: f_001
+    context: "Used WebSocket for telemetry on ESP32 microcontroller."
+    reason: "High packet loss in weak network environments, no QoS mechanism causing MCU hang."
+    lesson: "MUST use MQTT (QoS 1 or 2) for telemetry instead of WebSocket on Edge/IoT devices."
+    severity: "High"
+
+anti_patterns:
+  - id: ap_001
+    pattern: "Premature Abstraction (Creating Framework/Interface before core logic works)."
+    frequency_detected: 0
+    impact: "Increases unnecessary complexity, wastes debugging time."
+    correction: "Working code -> Refactor -> Optimize."
+
+# RULE: The Decision Simulator MUST cross-reference new solutions against this DB to avoid repeating past mistakes.

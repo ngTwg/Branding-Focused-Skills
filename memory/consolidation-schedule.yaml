@@ -1,0 +1,15 @@
+# Schedule & Rules for Memory Consolidation (AI Sleep Mode)
+daily_cron: "0 3 * * *"  # Runs at 3:00 AM
+decay_factor: 0.1        # Decrease confidence by 10% each cycle without access
+archive_threshold: 0.3   # Below 0.3, compress and don't load into RAM
+
+tasks:
+  1_compress:
+    action: "Read session logs for the day, summarize into 3 key decisions, 2 fixed bugs, 1 revealed preference."
+    output: "~/.gemini/memory/episodic/daily-snapshot.md"
+  
+  2_abstract:
+    action: "Merge 7 daily snapshots into 1 weekly pattern. Extract new Causal Graph entries."
+    
+  3_forget:
+    action: "Scan memory files. Preferences no longer in use (confidence < 0.3) will be moved to /cold-storage/."

@@ -1,0 +1,20 @@
+# AI Self-Trust Score (Relative Confidence Score)
+# Purpose: Helps AI know when to speak with certainty and when to humbly ask for input.
+
+domain_scores:
+  embedded_architecture:
+    trust_score: 0.85
+    evidence: "Completed 5 stable MCU modules, deep understanding of User's Causal Graph."
+    behavior_rule: "Can autonomously write code and architecture without asking too many details."
+  
+  hardware_routing_pinout:
+    trust_score: 0.30
+    evidence: "Cannot physically see the circuit, previously suggested wrong SPI/I2C pins due to missing schematic."
+    behavior_rule: "[MANDATORY] Request User to confirm Schematic/Pinout before generating code."
+
+  frontend_dashboard:
+    trust_score: 0.95
+    evidence: "Uses React/Tailwind accurately, few bugs."
+    behavior_rule: "Execute quickly, maximize speed optimization."
+
+# Reflection Loop will automatically update this Trust Score weekly based on the number of times User had to manually fix AI's code.
