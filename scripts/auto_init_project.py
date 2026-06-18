@@ -102,24 +102,25 @@ def init_project(target_dir_path: Path):
             shutil.copy2(src, dest)
             print(f"{STATUS['create']} Created: {dest}")
             
-            # Perform dynamic customization on the new file
-            try:
-                with open(dest, "r", encoding="utf-8") as f:
-                    content = f.read()
-                
-                # Replace dynamic parameters
-                customized = (content
-                    .replace("c:/Users/lengo/.gemini", str(target_dir_path.as_posix()))
-                    .replace("c:\\Users\\lengo\\.gemini", str(target_dir_path))
-                    .replace("2026-06-16", current_date)
-                    .replace("Antigravity AI Skills", f"{project_name} AI Rules Workspace")
-                )
-                
-                with open(dest, "w", encoding="utf-8") as f:
-                    f.write(customized)
-                print(f"{STATUS['ok']} Customized {dest.name} for project '{project_name}'")
-            except Exception as e:
-                print(f"{STATUS['error']} Customizing {dest.name} failed: {e}")
+            # Perform dynamic customization on PROJECT_MAP.md
+            if "map" in dest.name.lower():
+                try:
+                    with open(dest, "r", encoding="utf-8") as f:
+                        content = f.read()
+                    
+                    # Replace dynamic parameters
+                    customized = (content
+                        .replace("c:/Users/lengo/.gemini", str(target_dir_path.as_posix()))
+                        .replace("c:\\Users\\lengo\\.gemini", str(target_dir_path))
+                        .replace("2026-06-16", current_date)
+                        .replace("Antigravity AI Skills", f"{project_name} AI Rules Workspace")
+                    )
+                    
+                    with open(dest, "w", encoding="utf-8") as f:
+                        f.write(customized)
+                    print(f"{STATUS['ok']} Customized {dest.name} for project '{project_name}'")
+                except Exception as e:
+                    print(f"{STATUS['error']} Customizing {dest.name} failed: {e}")
         else:
             print(f"{STATUS['info']} File already exists: {dest}")
 
