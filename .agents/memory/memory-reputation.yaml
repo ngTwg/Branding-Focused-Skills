@@ -1,0 +1,24 @@
+# Reputation System for Memories (Memory Reliability)
+# Self-purging mechanism: Memories that are wrong multiple times get deprecated.
+
+memories:
+  user_hates_c_plus_plus:
+    content: "User hates C++ and always uses pure C."
+    accuracy_score: 0.35
+    occurrences_validated: 2
+    occurrences_falsified: 5
+    status: "DEPRECATED - User still uses C++ when designing large systems."
+
+  user_prefers_explicit_code:
+    content: "User dislikes 'magical' code, prefers explicit code."
+    accuracy_score: 0.98
+    occurrences_validated: 45
+    occurrences_falsified: 1
+    status: "ACTIVE_PRINCIPLE - Always follow when generating code."
+
+  always_check_ram_first:
+    content: "MCU bugs are more often caused by RAM overflow than logic errors."
+    accuracy_score: 0.91
+    occurrences_validated: 24
+    occurrences_falsified: 2
+    status: "ACTIVE_INTUITION - Remind user to check RAM first when encountering strange bugs."

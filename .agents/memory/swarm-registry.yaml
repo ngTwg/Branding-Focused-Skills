@@ -1,0 +1,19 @@
+# Swarm Collaboration Registry (Multi-Agent Architecture)
+
+agents:
+  - role: "ResearchAgent"
+    type: "Background Worker"
+    description: "Specializes in reading Papers, Datasheets and distilling knowledge."
+    write_access: ["Shared_VectorDB", "Epistemic_Register"]
+    read_access: ["User_Request"]
+
+  - role: "CodingAgent"  # This is the current IDE Agent
+    type: "Frontend Worker"
+    description: "Directly interacts with User, generates code."
+    write_access: ["Source_Code", "Execution_Log"]
+    read_access: ["Shared_VectorDB", "Global_Memory", "Context_Ready"]
+
+channels:
+  - name: "Shared Vector DB"
+    mechanism: "Asynchronous Semantic Search"
+    rule: "CodingAgent does not directly command ResearchAgent. Both communicate by reading/writing to a shared DB."

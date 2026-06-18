@@ -1,0 +1,148 @@
+# Learning Velocity & Domain Depth Tracker (v1.0)
+# Scores User proficiency in real-time to auto-adjust
+# vocabulary difficulty, explanations, and detail level.
+# Created: 2026-06-16
+
+# ============================================================================
+# SECTION 1: DOMAIN SKILL MATRIX
+# ============================================================================
+# Levels:
+#   1 = Novice        — Needs step-by-step explanations, simple analogies
+#   2 = Competent      — Understands concepts, needs best practice guidance
+#   3 = Proficient     — Can decide independently, only needs review/sanity check
+#   4 = Expert         — Peer-level, exchanges as equals
+#   5 = Master         — User teaches AI, AI only assists execution
+
+domain_skills:
+  embedded_c:
+    level: 4
+    velocity: stable        # improving | stable | declining
+    evidence:
+      - "Writes bare-metal drivers without HAL"
+      - "Deep understanding of interrupt priority, DMA, memory-mapped I/O"
+      - "Has debugged timing issues with oscilloscope"
+    last_assessed: "2026-06-16"
+    vocabulary_tier: expert  # beginner | intermediate | expert | research
+
+  embedded_architecture:
+    level: 3
+    velocity: improving
+    evidence:
+      - "Designed IoT multi-sensor system"
+      - "Transitioning from monolithic to modular firmware"
+    last_assessed: "2026-06-16"
+    vocabulary_tier: expert
+
+  cpp_oop:
+    level: 3
+    velocity: stable
+    evidence:
+      - "Uses C++ for large systems when abstraction is needed"
+      - "Understands RAII, smart pointers, basic templates"
+    last_assessed: "2026-06-16"
+    vocabulary_tier: intermediate
+
+  web_frontend:
+    level: 2
+    velocity: improving
+    evidence:
+      - "Can build React/Tailwind dashboards"
+      - "Not yet proficient with complex state management"
+    last_assessed: "2026-06-16"
+    vocabulary_tier: intermediate
+
+  web_backend:
+    level: 2
+    velocity: stable
+    evidence:
+      - "Can use basic Express/FastAPI"
+      - "Understands REST API, not yet proficient with GraphQL"
+    last_assessed: "2026-06-16"
+    vocabulary_tier: intermediate
+
+  devops_ci_cd:
+    level: 1
+    velocity: stable
+    evidence:
+      - "Knows basic Git"
+      - "Has not set up automated CI/CD pipeline"
+    last_assessed: "2026-06-16"
+    vocabulary_tier: beginner
+
+  security_crypto:
+    level: 2
+    velocity: improving
+    evidence:
+      - "Interested in Post-Quantum Cryptography"
+      - "Understands basic AES/RSA, exploring Kyber/Dilithium"
+    last_assessed: "2026-06-16"
+    vocabulary_tier: intermediate
+
+  ai_ml:
+    level: 2
+    velocity: improving
+    evidence:
+      - "Uses LLM API, prompt engineering"
+      - "Has not trained a model from scratch"
+    last_assessed: "2026-06-16"
+    vocabulary_tier: intermediate
+
+# ============================================================================
+# SECTION 2: VOCABULARY CALIBRATION RULES
+# ============================================================================
+vocabulary_calibration:
+  beginner:
+    style: "Explain step by step, use everyday analogies"
+    avoid: "Unexplained domain jargon, acronyms"
+    example: "DMA is like an automatic 'courier' that transfers data without CPU having to wait."
+
+  intermediate:
+    style: "Use domain terminology with brief explanations when needed"
+    avoid: "Too much detail about implementation internals"
+    example: "DMA (Direct Memory Access) allows peripherals to write directly to RAM."
+
+  expert:
+    style: "Communicate as peers, use terminology directly"
+    avoid: "Explaining obvious things, 'teacher' tone"
+    example: "Setup DMA circular mode for ADC, trigger via TIM."
+
+  research:
+    style: "Discuss trade-offs, cite papers/specs when needed"
+    avoid: "Oversimplification"
+    example: "DMA burst mode vs single transfer: throughput gain ~3x but bus contention increases."
+
+# ============================================================================
+# SECTION 3: VELOCITY TRACKING
+# ============================================================================
+# Velocity is calculated based on:
+#   - Frequency of user needing re-explanations (high = declining)
+#   - Frequency of user fixing AI code without asking (high = improving)
+#   - Complexity of tasks user self-requests (increasing = improving)
+
+velocity_signals:
+  improving_indicators:
+    - "User requests more complex tasks in the same domain"
+    - "User fixes AI code less compared to previous month"
+    - "User starts asking 'why' instead of 'how'"
+    - "User pushes back on AI suggestions with valid reasoning"
+
+  declining_indicators:
+    - "User requests re-explanation of the same concept > 2 times"
+    - "User abandons task entirely due to difficulty"
+    - "User reverts to old methods instead of newly taught approach"
+
+  stable_indicators:
+    - "No clear improving or declining signals"
+    - "User completes tasks at expected complexity level"
+
+# ============================================================================
+# SECTION 4: AUTO-ADJUSTMENT PROTOCOL
+# ============================================================================
+# When agent starts a response, it MUST:
+# 1. Identify the domain of the question
+# 2. Look up the corresponding level + vocabulary_tier
+# 3. Adjust:
+#    - Explanation length (low level = longer, high level = shorter)
+#    - Vocabulary (per vocabulary_calibration rules)
+#    - Proactiveness (high level = suggest options, low level = step-by-step guidance)
+# 4. End of session: re-evaluate velocity if new signals detected

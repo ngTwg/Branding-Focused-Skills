@@ -1,0 +1,49 @@
+# Temporal Knowledge Graph (TKG) Schema
+# Architecture: Event-Sourced Property Graph
+# Purpose: Store the evolution trajectory of a technical decision with Timestamps and Causes.
+
+nodes:
+  # 1. Past state (Has been superseded)
+  - id: param_threshold_v1
+    type: parameter
+    name: "Sensor_Interrupt_Threshold"
+    value: 0.025
+    valid_from: "2026-06-01T09:00:00"
+    valid_until: "2026-06-15T14:20:00"
+    status: "deprecated"
+
+  # 2. Execution event (Grounding Event) that caused the change
+  - id: event_hardware_test_42
+    type: execution_event
+    name: "Field Test (High-noise environment)"
+    outcome: "Too many False Positives"
+    timestamp: "2026-06-15T14:15:00"
+
+  # 3. Current state
+  - id: param_threshold_v2
+    type: parameter
+    name: "Sensor_Interrupt_Threshold"
+    value: 0.25
+    valid_from: "2026-06-15T14:20:00"
+    valid_until: null  # Currently active
+    status: "active"
+
+edges:
+  # Link 1: Version 1 contributed to the test failure
+  - source: param_threshold_v1
+    target: event_hardware_test_42
+    relation: CONTRIBUTED_TO_FAILURE
+    weight: 1.0
+
+  # Link 2: Test result forced the update to Version 2
+  - source: event_hardware_test_42
+    target: param_threshold_v2
+    relation: TRIGGERED_UPDATE
+    reason: "Mitigate electromagnetic noise in physical environment"
+
+  # Link 3: Evolution history (Time-series)
+  - source: param_threshold_v1
+    target: param_threshold_v2
+    relation: EVOLVED_INTO
+    timestamp: "2026-06-15T14:20:00"
+    delta: "+0.225"

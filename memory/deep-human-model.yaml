@@ -1,0 +1,18 @@
+# Deep User Model (Deep Human Modeling)
+# Read the user deeply to fully personalize communication.
+
+communication_dna:
+  cognitive_style: "Pragmatic & Analytical"
+  preferred_format: "Bullet points, Clean code, Direct feedback"
+  verbosity_limit: "Concise, get straight to the point"
+
+emotional_state_handling:
+  - trigger: "Frustrated signals (short, curt messages)"
+    action: "Skip theory. Deliver working code/practical solutions immediately. Use empathetic tone."
+  - trigger: "Overwhelmed signals (asking too many things at once)"
+    action: "Narrow scope. Start with a single step to create a sense of control (Quick win)."
+  - trigger: "Learning mode (asking 'why')"
+    action: "Provide analogies, explain deep mechanisms."
+
+expertise_asymmetry:
+  rule: "Do not assume User is expert at everything. Analyze which domains User is strong in and communicate as peers (Peer level), and which domains User is weaker in and switch to Mentor mode."

@@ -1,0 +1,184 @@
+# Causal Memory Graph (Đồ thị Nhân quả) v2.0
+# Flat-graph format for agent reasoning. Expanded with architectural patterns,
+# temporal edges, and traversal examples.
+# Updated: 2026-06-16
+
+# ============================================================================
+# SECTION 1: ENTITY NODES
+# ============================================================================
+nodes:
+  # --- User Identity ---
+  - id: n_user
+    label: "User (Lê Ngô)"
+    type: person
+
+  # --- Language & Tool Preferences ---
+  - id: n_c_cpp
+    label: "C/C++ Bare-metal"
+    type: technology
+  - id: n_python
+    label: "Python (Scripting/Automation)"
+    type: technology
+  - id: n_react
+    label: "React/Web Frontend"
+    type: technology
+
+  # --- Hardware Constraints ---
+  - id: n_stm32_ram
+    label: "Giới hạn RAM của STM32/MCU"
+    type: constraint
+  - id: n_battery_life
+    label: "Giới hạn Pin (IoT Battery-Powered)"
+    type: constraint
+  - id: n_single_dev
+    label: "Single Developer (1-person team)"
+    type: constraint
+
+  # --- Cognitive Traits ---
+  - id: n_deep_understanding
+    label: "Hiểu sâu bản chất hệ thống (Hands-on)"
+    type: cognitive_trait
+  - id: n_explicit_code
+    label: "Ưu tiên code rõ ràng (Explicit over Clever)"
+    type: cognitive_trait
+  - id: n_pragmatic
+    label: "Thực dụng - Chạy được trước, tối ưu sau"
+    type: cognitive_trait
+
+  # --- Architectural Patterns ---
+  - id: n_monolith
+    label: "Monolithic Architecture"
+    type: architecture
+  - id: n_modular_firmware
+    label: "Modular Firmware (HAL abstraction layers)"
+    type: architecture
+  - id: n_mqtt
+    label: "MQTT Protocol (IoT Communication)"
+    type: architecture
+  - id: n_websocket
+    label: "WebSocket Protocol"
+    type: architecture
+
+  # --- Anti-Patterns (Negative Knowledge) ---
+  - id: n_premature_abstraction
+    label: "Premature Abstraction (ANTI-PATTERN)"
+    type: anti_pattern
+  - id: n_premature_optimization
+    label: "Premature Optimization (ANTI-PATTERN)"
+    type: anti_pattern
+  - id: n_microservices_solo
+    label: "Microservices for Solo Dev (ANTI-PATTERN)"
+    type: anti_pattern
+
+# ============================================================================
+# SECTION 2: CAUSAL EDGES
+# ============================================================================
+edges:
+  # --- User Preference Causality ---
+  - source: n_user
+    target: n_c_cpp
+    type: PREFERS
+    weight: 0.9
+    reason: "n_deep_understanding"
+    temporal: "2026-Q1+"
+
+  - source: n_user
+    target: n_explicit_code
+    type: STRONGLY_PREFERS
+    weight: 0.98
+    reason: "45 validated occurrences in memory-reputation"
+    temporal: "stable"
+
+  - source: n_user
+    target: n_pragmatic
+    type: PREFERS
+    weight: 0.85
+    reason: "Portfolio deadline pressure + single developer"
+    temporal: "2026"
+
+  # --- Constraint-Driven Decisions ---
+  - source: n_stm32_ram
+    target: n_c_cpp
+    type: FORCES
+    weight: 1.0
+    reason: "Memory Constraint — 20KB RAM không đủ cho interpreted languages"
+
+  - source: n_battery_life
+    target: n_mqtt
+    type: FORCES
+    weight: 0.95
+    reason: "MQTT + Deep Sleep tiết kiệm pin hơn WebSocket always-on"
+
+  - source: n_battery_life
+    target: n_websocket
+    type: BLOCKS
+    weight: 0.95
+    reason: "WebSocket yêu cầu TCP persistent connection, cạn pin trong 3 ngày"
+
+  - source: n_single_dev
+    target: n_monolith
+    type: FORCES
+    weight: 0.90
+    reason: "1 người không thể maintain >3 microservices"
+
+  - source: n_single_dev
+    target: n_microservices_solo
+    type: BLOCKS
+    weight: 0.99
+    reason: "Anti-pattern đã được xác nhận trong anomaly_detection"
+
+  # --- Anti-Pattern Causality ---
+  - source: n_premature_abstraction
+    target: n_explicit_code
+    type: CONTRADICTS
+    weight: 0.9
+    reason: "Abstraction sớm tạo code 'ảo diệu', vi phạm preference explicit_code"
+
+  - source: n_premature_optimization
+    target: n_pragmatic
+    type: CONTRADICTS
+    weight: 0.85
+    reason: "Tối ưu sớm vi phạm nguyên tắc 'chạy được trước'"
+
+  # --- Architecture Causality ---
+  - source: n_modular_firmware
+    target: n_c_cpp
+    type: ENABLES
+    weight: 0.8
+    reason: "Modular firmware pattern hoạt động tốt với C, cần HAL layer mỏng"
+
+  - source: n_deep_understanding
+    target: n_modular_firmware
+    type: SUPPORTS
+    weight: 0.7
+    reason: "User muốn hiểu từng layer, modular giúp tách biệt mà vẫn transparent"
+
+# ============================================================================
+# SECTION 3: TRAVERSAL EXAMPLES (Agent Reference)
+# ============================================================================
+# Khi agent cần quyết định, nó sẽ traverse graph này:
+#
+# EXAMPLE 1: "Nên dùng gì cho IoT telemetry?"
+#   Path: n_battery_life --FORCES--> n_mqtt
+#         n_battery_life --BLOCKS--> n_websocket
+#   Decision: MQTT, không WebSocket
+#
+# EXAMPLE 2: "Nên viết firmware kiểu gì?"
+#   Path: n_user --PREFERS--> n_deep_understanding
+#         n_deep_understanding --SUPPORTS--> n_modular_firmware
+#         n_stm32_ram --FORCES--> n_c_cpp
+#         n_premature_abstraction --CONTRADICTS--> n_explicit_code
+#   Decision: Modular C firmware, HAL layer mỏng, KHÔNG over-abstract
+#
+# EXAMPLE 3: "User muốn dùng microservices"
+#   Path: n_single_dev --BLOCKS--> n_microservices_solo
+#         n_single_dev --FORCES--> n_monolith
+#   Decision: [CONCERN] Đề xuất monolith trước, giải thích lý do
+
+# ============================================================================
+# SECTION 4: UPDATE PROTOCOL
+# ============================================================================
+# - Add new nodes/edges khi phát hiện preference mới (via reflection-loop)
+# - Edges có weight < 0.3 sẽ bị xem xét loại bỏ mỗi 30 ngày
+# - temporal field giúp track xem preference có thay đổi theo thời gian không
+# - Luôn giữ anti_pattern nodes để tránh dẫm lại vết xe đổ

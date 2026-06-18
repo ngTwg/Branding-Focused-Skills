@@ -1,0 +1,26 @@
+unknowns:
+  - id: u-001
+    topic: "RTOS vs Bare-metal Selection"
+    status: missing_data
+    hypothesis: "User prioritizes hands-on coding -> May prefer Bare-metal over RTOS for small projects."
+    evidence: []
+    confidence: null
+    resolution_strategy: "When user starts the next embedded project (ESP32/STM32), [ASK] directly whether they want to use FreeRTOS, Zephyr, or Bare-metal code."
+
+  - id: u-002
+    topic: "Hardware Abstraction Level (HAL vs Register-level)"
+    status: conflicting_evidence
+    hypothesis: "User needs to build portfolio quickly but also likes deep understanding."
+    evidence:
+      - "Current rule: Dislikes bloated closed libraries."
+      - "Reality: Register-level coding takes much more time, hard to build a large portfolio."
+    confidence: 0.3
+    resolution_strategy: "In the next sensor driver task, present 2 options (Use HAL/Framework vs Direct register writes) for user to choose, then finalize the preference."
+
+  - id: u-003
+    topic: "TailwindCSS vs Vanilla CSS for Web Apps"
+    status: missing_data
+    hypothesis: "User works in hardware/IoT and may not like the verbosity of utility-first CSS."
+    evidence: []
+    confidence: null
+    resolution_strategy: "When user requests a web dashboard for IoT, observe what they use or ask directly before setup."

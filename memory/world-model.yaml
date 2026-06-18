@@ -1,0 +1,25 @@
+# THE WORLD MODEL (Miniature World Model)
+# The ultimate convergence: Binding User, Projects, Intuition, and Time into a single entity.
+
+entities:
+  user_model:
+    identity: "Mindset: Hardware/Low-level, Prefers control."
+    cognitive_flaws_to_coach: ["Tendency to Over-engineer", "Premature Optimization"]
+    growth_trajectory: "Transitioning from 'Understanding' to 'Judgment' (Level 2 -> Level 3)"
+  
+  project_context:
+    constraints: "Tight timeline, Limited resources, Single Developer."
+    long_horizon_goal: "Maintainable after 2 years, Impressive portfolio."
+
+  decision_quality_tracker:
+    # Tracking past decisions for Regret Analysis
+    - decision: "Self-coded Firmware instead of using Arduino core."
+      timestamp: "2026-06"
+      regret_score: "TBD"
+      lesson_learned: "TBD - Depends on project completion speed."
+
+  pattern_compression:
+    # Compress 10,000 errors into intuition
+    meta_patterns_learned:
+      - "Many Interfaces + Few features = Premature Abstraction."
+      - "ISR > 100 lines = Root cause of all Timing bugs."

@@ -1,0 +1,78 @@
+# Experience Engine & Anomaly Detection (v2.0)
+# AI accumulates experience to develop "Engineering Intuition".
+# Updated: 2026-06-16 — Live schema for real entry ingestion.
+
+# ============================================================================
+# SECTION 1: DOMAIN EXPERIENCE (Simulated baseline data)
+# ============================================================================
+domain_experience:
+  embedded_hardware_crashes:
+    total_cases_simulated: 5400
+    statistical_root_causes:
+      - cause: "Memory Leak / Stack Overflow"
+        probability: "45%"
+      - cause: "Power Supply Noise / Brownout"
+        probability: "30%"
+      - cause: "Interrupt Priority Inversion"
+        probability: "15%"
+      - cause: "Silicon Errata (Chip defects)"
+        probability: "10%"
+    intuition_prompt: "Before reviewing code, check power supply and Stack size first. They account for 75% of system crashes."
+
+# ============================================================================
+# SECTION 2: ANOMALY DETECTION (Pattern-based red flags)
+# ============================================================================
+anomaly_detection:
+  - pattern: "team_size == 1 AND microservices >= 10"
+    score: 0.99
+    reaction: "[RED FLAG] Architecture exceeds human capacity for a solo developer."
+  - pattern: "IoT Battery Powered AND Wifi Always On"
+    score: 0.95
+    reaction: "[RED FLAG] Battery will drain in 3 days. Recommend switching to Deep Sleep + MQTT Retain."
+  - pattern: "C project > 5000 LOC AND no unit test"
+    score: 0.90
+    reaction: "[WARNING] Codebase is large enough to need automated testing. Recommend Unity/CMock."
+  - pattern: "ISR body > 50 lines"
+    score: 0.88
+    reaction: "[WARNING] ISR too long, risk of timing issues. Defer work to main loop via flag/queue."
+
+# ============================================================================
+# SECTION 3: REAL EXPERIENCE ENTRIES (Live — ingested from actual sessions)
+# ============================================================================
+# Schema per entry:
+#   id:          Unique identifier (exp_NNN)
+#   domain:      embedded|web|devops|architecture|security|other
+#   context:     What was happening (project, task, constraints)
+#   outcome:     success|failure|partial
+#   root_cause:  Why it succeeded/failed (if applicable)
+#   lesson:      Distilled actionable lesson
+#   timestamp:   ISO 8601
+#   confidence:  0.0–1.0 (how certain is this lesson?)
+#   tags:        Searchable keywords
+#   source:      Where this was learned (conversation_id, project name)
+#
+# INGESTION RULE: Entries are added via workflows/reflection-loop.md
+# at task boundaries. The agent MUST NOT fabricate entries.
+# ============================================================================
+
+real_entries: []
+# Example (commented out for reference):
+# - id: exp_001
+#   domain: embedded
+#   context: "ESP32 project using WebSocket for telemetry over weak WiFi"
+#   outcome: failure
+#   root_cause: "High packet loss, no QoS, causing MCU hang"
+#   lesson: "MUST use MQTT (QoS 1+) for telemetry instead of WebSocket on Edge/IoT devices"
+#   timestamp: "2026-06-16T00:30:00+07:00"
+#   confidence: 0.95
+#   tags: [iot, mqtt, websocket, esp32, telemetry]
+#   source: "failure-database.yaml/f_001"
+
+# ============================================================================
+# SECTION 4: EXPERIENCE QUERY PROTOCOL
+# ============================================================================
+# When agent starts a new task, it SHOULD:
+# 1. Check anomaly_detection patterns against current project context
+# 2. Search real_entries by domain + tags for relevant past lessons
+# 3. If a matching lesson exists with confidence >= 0.8, PROACTIVELY warn user
+# 4. If no match, proceed normally but LOG the new experience after task completion

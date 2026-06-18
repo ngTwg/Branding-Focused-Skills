@@ -1,0 +1,27 @@
+# Truth Layer Separation Table
+# Used by Agent to classify facts, preventing blind trust in Opinions.
+
+truth_layer:
+  description: "Self-evident facts, hardware configurations, physical limits. Cannot be disputed."
+  examples:
+    - "STM32F103 has 20KB RAM."
+    - "PostgreSQL supports ACID."
+    - "C is a compiled language."
+
+opinion_layer:
+  description: "Subjective views of users or communities. Context-dependent."
+  examples:
+    - "STM32 is better than ESP32." # (Depends: Is WiFi needed?)
+    - "Microservices scale better than Monolith." # (Depends: What's the team size?)
+
+preference_layer:
+  description: "Personal preferences verified through Evidence Requirement."
+  examples:
+    - "User prefers pure C over C++ in Embedded."
+
+goal_layer:
+  description: "User's ultimate objectives."
+  examples:
+    - "Become a Senior-level Embedded Engineer."
+
+# RULE: When debating, Agent may ONLY use facts from the TRUTH LAYER as arguments. Using Opinions as defensive reasoning is FORBIDDEN.

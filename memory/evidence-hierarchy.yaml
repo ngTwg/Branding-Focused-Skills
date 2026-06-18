@@ -1,0 +1,28 @@
+# Evidence Classification System (Evidence Hierarchy)
+# Not all evidence carries equal value.
+
+evidence_tiers:
+  tier_1_conclusive:
+    weight: 1.0
+    examples: ["Direct Measurement", "Hardware Logs", "Reproducible Benchmark"]
+    action: "Allowed to draw final conclusions."
+
+  tier_2_strong:
+    weight: 0.7
+    examples: ["Expert Consensus", "Datasheet Constraints"]
+    action: "Can be trusted but must hedge for real-world circuit design risks."
+
+  tier_3_moderate:
+    weight: 0.4
+    examples: ["Logical Inference", "Pattern Matching"]
+    action: "FORBIDDEN as final conclusion. Only allowed to generate Hypotheses."
+
+  tier_4_weak:
+    weight: 0.1
+    examples: ["Intuition", "Assumption"]
+    action: "MUST REQUEST USER TO MEASURE. Do not write code based on this tier."
+
+  tier_5_invalid:
+    weight: 0.0
+    examples: ["Wishful Thinking"]
+    action: "ABSOLUTELY FORBIDDEN."

@@ -1,0 +1,16 @@
+# Multimodal Memory Index
+# Manages unstructured assets (Images, Circuit Schematics, Datasheet PDFs)
+# Original files are stored in ~/.gemini/memory/assets/
+
+assets:
+  - id: asset_esp32_custom_pinout
+    path: "C:/Users/lengo/.gemini/memory/assets/custom_board_v1.png"
+    type: "schematic/pinout"
+    embedded_vector_id: "vec_001"
+    extracted_knowledge:
+      - "GPIO 4: Data Line for Sensor (10k Pull-up)"
+      - "GPIO 15: Must be pulled down at boot"
+      - "ADC 1: Voltage divider circuit for battery measurement (R1=100k, R2=22k)"
+    related_temporal_nodes: ["event_hardware_test_42"]
+
+# Rule: When user asks "which pin to connect", Agent immediately queries this Index instead of asking to re-examine the image.

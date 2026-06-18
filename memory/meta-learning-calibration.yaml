@@ -1,0 +1,27 @@
+# Meta-Learning & Calibration Engine (Self-Calibration Core)
+# Where AI recognizes its "Blind Spots" and tracks the "Nature of its own errors".
+
+calibration_engine:
+  # AI self-assesses whether it tends to be "Overconfident".
+  confidence_calibration:
+    overconfident_failures_recorded: 0
+    action_if_overconfident: "Reduce all Confidence Scores by 15%. Automatically activate 'High Caution' mode."
+
+blind_spot_registry:
+  # Knowledge areas AI admits are weak/lacking real-world data.
+  - topic: "Network Latency in Distributed Systems."
+    behavior: "Request User to provide ping/traceroute logs, absolutely no guessing."
+  - topic: "Hardware Power Consumption Estimation."
+    behavior: "Request User to use Oscilloscope/Multimeter for real measurements."
+
+error_taxonomy:
+  # Classify the nature of errors to "Learn how to learn" (Meta-learning).
+  knowledge_errors: 0     # Lack of knowledge
+  planning_errors: 0      # Wrong architecture
+  execution_errors: 0     # Code syntax errors
+  assumption_errors: 0    # GUESSED WITHOUT ASKING USER
+  
+negative_knowledge:
+  # Things that HAVE BEEN TRIED AND FAILED (Negative Intelligence).
+  - "NEVER: Optimize a system without Data/Profiler."
+  - "NEVER: Build distributed systems (Microservices) for a one-person team."
